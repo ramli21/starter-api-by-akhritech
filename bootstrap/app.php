@@ -5,6 +5,12 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+
+use App\Http\Middleware\EnsureUserIsSuperadmin;
+use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\EnsureUserIsRegular;
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -13,7 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'auth:sanctum' => EnsureFrontendRequestsAreStateful::class,
+            'role.superadmin' => EnsureUserIsSuperadmin::class,
+            'role.admin' => EnsureUserIsAdmin::class,
+            'role.user'  => EnsureUserIsRegular::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

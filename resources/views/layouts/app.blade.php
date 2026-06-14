@@ -46,6 +46,9 @@
                         <a href="{{ route('sumin.users.index') }}"
                             class="px-3 py-2 rounded-md text-sm {{ request()->routeIs('sumin.users.*') ? 'text-blue-600 bg-blue-50 font-semibold' : 'text-slate-700 hover:text-blue-600' }}"
                             @if (request()->routeIs('sumin.users.*')) aria-current="page" @endif>Users</a>
+                        <a href="{{ '/log-viewer' }}" target="_blank"
+                            class="px-3 py-2 rounded-md text-sm text-slate-700 hover:text-blue-600">Log
+                            Viewer</a>
                     @endauth
 
 
